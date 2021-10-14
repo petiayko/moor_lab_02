@@ -1,4 +1,4 @@
-from init import Target, Line, SimplexTable
+from init import Target, Line, SimplexTable, get_dual
 
 
 # функция чтения данных из файла.
@@ -9,10 +9,10 @@ def get_lines(file):
     lines = [line.replace('\n', '') for line in file]
     for line in lines:
         if 'F=' not in line:
-            row = Line(line=line, variables=len(lines) - 1)
-            A.append(row)
+            A.append(line)
         else:
-            c = Target(line=line, variables=len(lines) - 1)
+            c = Target(line=line)
+    A = [Line(line=i, variables=c.variables) for i in A]
 
     return A, c
 
@@ -21,7 +21,7 @@ def get_lines(file):
 # получает данные из файла и при помощи класса "симплекс-таблица" получает и печатает ответ
 def solve(path):
     A, c = get_lines(open(path, 'r'))
-    simplex_table = SimplexTable(A, c)
+    simplex_table = SimplexTable(A, c, len(A))
     X, F_val = simplex_table.solve()
     ind = 0
     print('The answer is:')
@@ -33,5 +33,5 @@ def solve(path):
 
 def dual(path):
     A, c = get_lines(open(path, 'r'))
-    simplex_table = SimplexTable(A, c)
-    simplex_table.get_dual()
+    simplex_table = SimplexTable(A, c, len(A))
+    get_dual(simplex_table)
