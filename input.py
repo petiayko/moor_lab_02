@@ -31,6 +31,7 @@ def solve(path):
     print(f'F = {F_val}')
 
 
+# функция получения ДЗ ЛП. Полученная симплекс-таблица будет выведена в консоль
 def dual(path):
     A, c = get_lines(open(path, 'r'))
     simplex_table = SimplexTable(A, c, len(A))
